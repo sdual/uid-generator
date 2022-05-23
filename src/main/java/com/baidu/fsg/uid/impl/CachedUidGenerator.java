@@ -15,6 +15,7 @@
  */
 package com.baidu.fsg.uid.impl;
 
+import com.baidu.fsg.uid.worker.WorkerIdAssigner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,13 @@ public class CachedUidGenerator extends DefaultUidGenerator implements Disposabl
     /** RingBuffer */
     private RingBuffer ringBuffer;
     private BufferPaddingExecutor bufferPaddingExecutor;
+
+    public CachedUidGenerator(WorkerIdAssigner workerIdAssigner, BitConfig bitConfig) {
+        super(workerIdAssigner, bitConfig);
+        this.rejectedPutBufferHandler = bitConfig.getRejectedPutBufferHandler();
+        this.rejectedTakeBufferHandler = bitConfig.getRejectedTakeBufferHandler();
+        this.scheduleInterval = bitConfig.getScheduleInterval();
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

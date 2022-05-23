@@ -80,6 +80,17 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
 
     /** Spring property */
     protected WorkerIdAssigner workerIdAssigner;
+    protected BitConfig bitConfig;
+
+    public DefaultUidGenerator(WorkerIdAssigner workerIdAssigner, BitConfig bitConfig) {
+        this.workerIdAssigner = workerIdAssigner;
+
+        this.bitConfig = bitConfig;
+        this.timeBits = bitConfig.getTimeBits();
+        this.workerBits = bitConfig.getWorkerBits();
+        this.seqBits = bitConfig.getSeqBits();
+        this.epochStr = bitConfig.getEpochStr();
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
